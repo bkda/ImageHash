@@ -55,7 +55,9 @@ R | G | B | Count
 1.  resize the image to 32 x 32 with ANTIALIAS and convert to grayscale  ('L')      
 ![](IMG/80x80.jpg)
 
-2.  use a discrete cosine transform (DCT) and generate the 32x32 coefficients matrix.(In fact,we only use the upper left corner,so I just generate the 8x8 coefficients matrix.)
+2.  use a discrete cosine transform (DCT) and generate the 32x32 coefficients matrix.(In fact,we only use the upper left corner,so I just generate the 8x8 coefficients matrix.)      
+![](IMG/formula.png)
+
 3.  calculate the average of the matrix.
 4.  compare the pixels to the average if greater than avg get 1 else get 0
 5.  convert binary to decimal integer using shift operator
@@ -75,5 +77,35 @@ The returned DCT coefficients is same as the result of Matlab 'dct2' function.
 
 ![](IMG/MATLAB.png)
 
+### Difference hash
 
 
+
+
+##Compare 
+
+* Average hash is fast but not very accurate,sometimes it generates a lot of false positives.
+
+![](IMG/figure1.png)
+Average hash:
+
+    2034634172563202339
+    4357514113602036515
+    8716924057964842500
+
+After calculating the hamming distances between them,I find it is a false positive.The hamming distance between image1 and image2 is 12.Not very good.
+
+* Color histogram is a good way to identify similar pictures.But if you don't zoom out the image,it will take you a lot of time.
+It depends on the colors of overall picture,to some extent it is a excellent algorithm.
+The cosine similarity between image1 and image2 is **0.9968383379981955**.
+It means they are almost the same image.But it cannot identify image2 and image3,the cosine similarity between them is **0.8406195273168274**.
+
+* Perceptive hash algorithm definitely has the best accuracy.But it takes more time.  
+
+Perceptive hash:
+  
+    10376294653993037321
+    36046402241572393
+    319773203310626353
+    
+The hamming distance between image1 and image2 is 7, the performance is really good.
