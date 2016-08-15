@@ -14,8 +14,7 @@
     
 ###Average hash   
 
-1.  resize the image to 8 x 8 with ANTIALIAS and convert to grayscale  ('L') 
-
+1.  resize the image to 8 x 8 with ANTIALIAS and convert to grayscale  ('L')       
 ![](IMG/80x80.jpg)
 
 2.  calculate the average of 64 grayscales
@@ -53,8 +52,7 @@ R | G | B | Count
 
 ### Perceptive hash
 
-1.  resize the image to 32 x 32 with ANTIALIAS and convert to grayscale  ('L') 
-
+1.  resize the image to 32 x 32 with ANTIALIAS and convert to grayscale  ('L')      
 ![](IMG/80x80.jpg)
 
 2.  use a discrete cosine transform (DCT) and generate the 32x32 coefficients matrix.(In fact,we only use the upper left corner,so I just generate the 8x8 coefficients matrix.)
