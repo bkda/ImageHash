@@ -1,5 +1,7 @@
-# Image hash algorithm implementation in pure Python (3.x)
+# Image hash algorithm implementation in pure Python
 ---
+
+###Python3.x
 
 ###Requirement
 
@@ -13,7 +15,9 @@
 ###Average hash   
 
 1.  resize the image to 8 x 8 with ANTIALIAS and convert to grayscale  ('L') 
+
 ![](IMG/80x80.jpg)
+
 2.  calculate the average of 64 grayscales
 3.  compare the 64 grayscales to the average if greater than avg get 1 else get 0
 4.  convert binary to decimal integer using shift operator
@@ -50,7 +54,9 @@ R | G | B | Count
 ### Perceptive hash
 
 1.  resize the image to 32 x 32 with ANTIALIAS and convert to grayscale  ('L') 
+
 ![](IMG/80x80.jpg)
+
 2.  use a discrete cosine transform (DCT) and generate the 32x32 coefficients matrix.(In fact,we only use the upper left corner,so I just generate the 8x8 coefficients matrix.)
 3.  calculate the average of the matrix.
 4.  compare the pixels to the average if greater than avg get 1 else get 0
@@ -58,7 +64,7 @@ R | G | B | Count
 
 
 The returned DCT coefficients is same as the result of Matlab 'dct2' function.
-![](IMG/MATLAB.png)
+
 
     [3957.937500000001, -6.45782564328, 23.551805262031117, 287.9702588579284, -43.60357823583293, 110.2479312475327, 53.15931722426795, 5.406303839931143]
     [-327.3585995570752, 340.9328561602328, 487.88585128367384, 334.6670101433679, -25.65124783757791, 99.13930862987212, 71.92070113492402, -59.812612503827786]
@@ -68,5 +74,8 @@ The returned DCT coefficients is same as the result of Matlab 'dct2' function.
     [-208.0520373074981, -49.43037862161907, 29.310824116620022, 32.009755685611026, 124.70463249710798, -24.948166138795766, -92.75103158294787, 13.10849521985365]
     [-105.39332350766952, -44.401129254094535, 39.64988864697462, -86.79477136259145, -16.435764130025756, -22.578982094348916, 68.27141328357092, 81.19329683038744]
     [-17.42272275896725, -113.80984679223711, 40.342601381802034, 41.396028432989674, -87.63669517505066, 68.82287427897536, 22.057683843368007, -32.07442266899904]
+
+![](IMG/MATLAB.png)
+
 
 
