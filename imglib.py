@@ -48,7 +48,7 @@ def colorHistogram(img, size=8):
     return [c.count(i) for i in SL]
 
 
-def dct_coefficients(data,upper_left = 8):
+def dct_coefficients(data, upper_left=8):
     '''
     :param data:
     :param upper_left: use upper left corner
@@ -100,8 +100,27 @@ def perceptiveHash(img):
     return hs
 
 
-def differenceHash(img,size=8):
-    pass
+def differenceHash(img, size=8):
+    '''
+    :param img:
+    :param size:
+    :return:  In this case, the 9 pixels per row yields 8 differences between adjacent pixels. Eight rows of eight differences becomes 64 bits.
+    '''
+    if not isinstance(img, Image.Image):
+        img = Image.open(img)
+    im = img.resize((size + 1, size), Image.ANTIALIAS).convert('L')
+
+    c = list(im.getdata())
+    d = []
+    for i in range(len(c) - 1):
+        if c[i] < c[i + 1] and i % 9 != 8:
+            d.append(1)
+        elif i % 9 != 8:
+            d.append(0)
+    d.reverse()
+    hs = reduce(lambda x, y_z: x | (y_z[1] << y_z[0]), enumerate(d), 0)
+
+    return hs
 
 
 def hammingDistance(h1, h2):
