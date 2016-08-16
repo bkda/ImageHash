@@ -5,7 +5,6 @@
     Mail tracyliubai@gmail.com
 '''
 
-
 from functools import reduce
 from PIL import Image
 
@@ -14,7 +13,7 @@ SL = [0, 1, 2, 3, 10, 11, 12, 13, 20, 21, 22, 23, 30, 31, 32, 33, 100, 101, 102,
       302, 303, 310, 311, 312, 313, 320, 321, 322, 323, 330, 331, 332, 333]
 
 
-def averageHash(img):
+def averageHash(img, size=8):
     '''
     :param img: img file
     1.  resize the image to 8 x 8 with ANTIALIAS and convert to grayscale  ('L')
@@ -25,9 +24,9 @@ def averageHash(img):
     '''
     if not isinstance(img, Image.Image):
         img = Image.open(img)
-    im = img.resize((8, 8), Image.ANTIALIAS).convert('L')
+    im = img.resize((size, size), Image.ANTIALIAS).convert('L')
 
-    avg = reduce(lambda x, y: x + y, im.getdata()) / 64
+    avg = reduce(lambda x, y: x + y, im.getdata()) / (size * size)
     binary_list = [0 if i < avg else 1 for i in im.getdata()]
 
     hs = reduce(lambda x, y_z: x | (y_z[1] << y_z[0]), enumerate(binary_list), 0)
@@ -36,7 +35,7 @@ def averageHash(img):
     return hs
 
 
-def colorHistogram(img):
+def colorHistogram(img, size=8):
     '''
     :param img:
     :return:  64-dimensional vector to calculate cosine similarity
@@ -45,13 +44,18 @@ def colorHistogram(img):
         img = Image.open(img)
 
     pixels = list(img.getdata())
-    c = [i[0] // 64 * 100 + i[1] // 64 * 10 + i[2] // 64 for i in pixels]
+    c = [i[0] // (size * size) * 100 + i[1] // (size * size) * 10 + i[2] // (size * size) for i in pixels]
     return [c.count(i) for i in SL]
 
 
-def dct_coefficients(data):
-    from math import cos, pi,sqrt
-    upper_left = 8
+def dct_coefficients(data,upper_left = 8):
+    '''
+    :param data:
+    :param upper_left: use upper left corner
+    :return:
+    '''
+    from math import cos, pi, sqrt
+
     A, M, N = [], 32, 32
     coefficients = []
     for i in range(32):
@@ -96,6 +100,10 @@ def perceptiveHash(img):
     return hs
 
 
+def differenceHash(img,size=8):
+    pass
+
+
 def hammingDistance(h1, h2):
     '''
     if h1 and h2 are string,they should have the same length
@@ -127,7 +135,7 @@ def cosine_similarity(c1, c2):
     integer list should have equal length
     string list will be calculated the frequency and generate list to get cosine similarity
     '''
-    from math import degrees, acos,sqrt
+    from math import degrees, acos, sqrt
     def cs(a, b):
         c = sum(a[i] * b[i] for i in range(len(a)))
         norm = lambda v: sqrt(sum(i * i for i in v))
