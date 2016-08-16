@@ -79,8 +79,11 @@ The returned DCT coefficients is same as the result of Matlab 'dct2' function.
 
 ### Difference hash
 
+1.  resize the image to 9 x 8 with ANTIALIAS and convert to grayscale  ('L')      
+![](IMG/80x80.jpg)
 
-
+2.  The 9 pixels per row yields 8 differences between adjacent pixels. Eight rows of eight differences becomes 64 bits.
+3.  Return hash value
 
 ##Compare 
 
@@ -98,6 +101,7 @@ After calculating the hamming distances between them,I find it is a false positi
 * Color histogram is a good way to identify similar pictures.But if you don't zoom out the image,it will take you a lot of time.
 It depends on the colors of overall picture,to some extent it is a excellent algorithm.
 The cosine similarity between image1 and image2 is **0.9968383379981955**.
+
 It means they are almost the same image.But it cannot identify image2 and image3,the cosine similarity between them is **0.8406195273168274**.
 
 * Perceptive hash algorithm definitely has the best accuracy.But it takes more time.  
@@ -109,3 +113,9 @@ Perceptive hash:
     319773203310626353
     
 The hamming distance between image1 and image2 is 7, the performance is really good.
+
+* Difference hash is a brilliant algorithm and it's also a simple algorithm.The algorithm has all the speed of average hash with very few false positives.
+
+In this case, shrink it to 9x8 so that there are 72 total pixels.The 9 pixels per row yields 8 differences between adjacent pixels. Eight rows of eight differences becomes 64 bits.
+That is the hash value of the image.
+ 
